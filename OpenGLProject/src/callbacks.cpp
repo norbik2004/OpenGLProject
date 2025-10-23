@@ -9,5 +9,5 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void error_callback(int error, const char* description)
 {
-    std::cerr << "[ERROR IN APP " << error << "]: " << description << std::endl;
+    fprintf(stderr, "Error: %s\n", description);
 }

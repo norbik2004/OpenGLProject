@@ -23,6 +23,9 @@ int main(void)
     glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
     glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
     glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     window = glfwCreateWindow(mode->width, mode->height, "My Title", monitor, NULL);
 
@@ -39,13 +42,13 @@ int main(void)
     //CALLBACKS
     glfwSetKeyCallback(window, key_callback);
 
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
 
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
-
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
