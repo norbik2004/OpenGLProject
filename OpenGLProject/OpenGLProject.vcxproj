@@ -132,6 +132,7 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="src\callbacks.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\shaderClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="external\glad\glad.h" />
@@ -139,6 +140,7 @@
     <ClInclude Include="external\glfw-3.4.bin.WIN64\include\GLFW\glfw3native.h" />
     <ClInclude Include="external\KHR\khrplatform.h" />
     <ClInclude Include="include\callbacks.h" />
+    <ClInclude Include="include\shaderClass.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="external\glfw-3.4.bin.WIN64\docs\html\build_8md.html" />
@@ -202,6 +204,8 @@
     <None Include="external\glfw-3.4.bin.WIN64\docs\html\vulkan_guide.html" />
     <None Include="external\glfw-3.4.bin.WIN64\docs\html\window_8md.html" />
     <None Include="external\glfw-3.4.bin.WIN64\docs\html\window_guide.html" />
+    <None Include="src\Shaders\default.frag" />
+    <None Include="src\Shaders\default.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
