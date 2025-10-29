@@ -3,15 +3,36 @@
 #include "include/callbacks.h"
 #include <iostream>
 
+#include "include/shaderClass.h"
+#include "include/VAO.h"
+#include "include/VBO.h"
+#include "include/EBO.h"
+
+
 using namespace std;
 
+GLfloat vertices[] =
+{
+    -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower left corner
+    0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower right corner
+    0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f, // Upper corner
+    -0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner left
+    0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner right
+    0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f // Inner down
+};
+
+GLuint indices[] =
+{
+    0, 3, 5,
+    3, 2, 4,
+    5, 4, 1
+};
 
 int main(void)
 {
     GLFWwindow* window;
     GLFWmonitor* monitor;
     const GLFWvidmode* mode;
-    GLuint VAO, VBO, EBO;
 
     /* Initialize the library */
     if (!glfwInit())
@@ -31,23 +52,6 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    GLfloat vertices[] =
-    {
-        -0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower left corner
-        0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower right corner
-        0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f, // Upper corner
-        -0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner left
-        0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f, // Inner right
-        0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f // Inner down
-    };
-
-    GLuint indecies[] =
-    {
-        0, 3, 5,
-        3, 2, 4,
-        5, 4, 1
-    };
 
     window = glfwCreateWindow(mode->width, mode->height, "My Title", monitor, NULL);
 
@@ -71,52 +75,56 @@ int main(void)
     //CALLBACKS
     glfwSetKeyCallback(window, key_callback);
 
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
+    // Generates Shader object using shaders defualt.vert and default.frag
+    Shader shaderProgram("src/shaders/default.vert", "src/shaders/default.frag");
 
-    glBindVertexArray(VAO);
+    // Generates Vertex Array Object and binds it
+    VAO VAO1;
+    VAO1.Bind();
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    // Generates Vertex Buffer Object and links it to vertices
+    VBO VBO1(vertices, sizeof(vertices));
+    // Generates Element Buffer Object and links it to indices
+    EBO EBO1(indices, sizeof(indices));
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indecies), indecies, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    // Links VBO to VAO
+    VAO1.LinkVBO(VBO1, 0);
+    // Unbind all to prevent accidentally modifying them
+    VAO1.Unbind();
+    VBO1.Unbind();
+    EBO1.Unbind();
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
-
-        /* Render here */
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        // Specify the color of the background
+        glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+        // Clean the back buffer and assign the new color to it
         glClear(GL_COLOR_BUFFER_BIT);
-        glUseProgram(shaderProgram);
-        glBindVertexArray(VAO);
+        // Tell OpenGL which Shader Program we want to use
+        shaderProgram.Activate();
+        // Bind the VAO so OpenGL knows to use it
+        VAO1.Bind();
+        // Draw primitives, number of indices, datatype of indices, index of indices
         glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
-
-        /* Swap front and back buffers */
+        // Swap the back buffer with the front buffer
         glfwSwapBuffers(window);
-
-        /* Poll for and process events */
+        // Take care of all GLFW events
         glfwPollEvents();
     }
 
-    // delete VAO and VBO and shaders
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
-    glDeleteProgram(shaderProgram);
 
-    // destroy window
+    // Delete all the objects we've created
+    VAO1.Delete();
+    VBO1.Delete();
+    EBO1.Delete();
+    shaderProgram.Delete();
+    // Delete window before ending the program
     glfwDestroyWindow(window);
+    // Terminate GLFW before ending the program
     glfwTerminate();
     return 0;
 }
