@@ -1,21 +1,24 @@
+#pragma once
 #include "../include/shaderClass.h"
 
 using namespace std;
 
-string get_file_contents(const char* filename)
+std::string get_file_contents(const char* filename)
 {
-	ifstream in(filename, ios::binary);
-	if (in)
+	std::ifstream in(filename, std::ios::binary);
+	if (!in.is_open())
 	{
-		std::string contents;
-		in.seekg(0, std::ios::end);
-		contents.resize(in.tellg());
-		in.seekg(0, std::ios::beg);
-		in.read(&contents[0], contents.size());
-		in.close();
-		return(contents);
+		std::cerr << "? Nie da sie otworzyc pliku " << filename << std::endl;
+		throw std::runtime_error("Blad: brak pliku shaderow");
 	}
-	throw(errno);
+
+	std::string contents;
+	in.seekg(0, std::ios::end);
+	contents.resize(in.tellg());
+	in.seekg(0, std::ios::beg);
+	in.read(&contents[0], contents.size());
+	in.close();
+	return contents;
 }
 
 Shader::Shader(const char* vertexFile, const char* fragmentFile)

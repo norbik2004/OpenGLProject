@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include "include/callbacks.h"
 #include <iostream>
+#include <filesystem>
 
 #include "include/shaderClass.h"
 #include "include/VAO.h"
@@ -74,8 +75,13 @@ int main(void)
     //CALLBACKS
     glfwSetKeyCallback(window, key_callback);
 
+    string shaderDir = filesystem::current_path().string() + "/src/shaders/";
+
     // Generates Shader object using shaders defualt.vert and default.frag
-    Shader shaderProgram("src/shaders/default.vert", "src/shaders/default.frag");
+    Shader shaderProgram(
+        (shaderDir + "default.vert").c_str(),
+        (shaderDir + "default.frag").c_str()
+    );
 
     // Generates Vertex Array Object and binds it
     VAO VAO1;
