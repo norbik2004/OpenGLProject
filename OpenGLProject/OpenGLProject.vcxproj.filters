@@ -36,6 +36,12 @@
     <ClCompile Include="src\VAO.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="src\stb.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\callbacks.h">
@@ -63,6 +69,9 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="include\VAO.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Texture.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
@@ -130,5 +139,13 @@
     <None Include="external\glfw-3.4.bin.WIN64\docs\html\window_guide.html" />
     <None Include="src\shaders\default.vert" />
     <None Include="src\shaders\default.frag" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\textures\penguin.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="src\textures\penguin.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -136,6 +136,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\EBO.cpp" />
     <ClCompile Include="src\shaderClass.cpp" />
+    <ClCompile Include="src\stb.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\VAO.cpp" />
     <ClCompile Include="src\VBO.cpp" />
   </ItemGroup>
@@ -147,6 +149,7 @@
     <ClInclude Include="include\callbacks.h" />
     <ClInclude Include="include\EBO.h" />
     <ClInclude Include="include\shaderClass.h" />
+    <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\VAO.h" />
     <ClInclude Include="include\VBO.h" />
   </ItemGroup>
@@ -214,6 +217,10 @@
     <None Include="external\glfw-3.4.bin.WIN64\docs\html\window_guide.html" />
     <None Include="src\shaders\default.frag" />
     <None Include="src\shaders\default.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\textures\penguin.jpg" />
+    <Image Include="src\textures\penguin.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
