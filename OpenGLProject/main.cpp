@@ -14,6 +14,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "include/Texture.h"
 #include "include/Camera.h"
+#include "include/DrawingHelper.h"
 
 
 using namespace std;
@@ -35,6 +36,21 @@ GLuint indices[] =
     1, 2, 4,
     2, 3, 4,
     3, 0, 4
+};
+
+GLfloat floorVertices[] =
+{
+    //   X      Y     Z     R     G     B
+    -25.0f, 0.0f,  25.0f,  0.4f, 0.6f, 0.4f,
+    -25.0f, 0.0f, -25.0f,  0.4f, 0.6f, 0.4f,
+     25.0f, 0.0f, -25.0f,  0.4f, 0.6f, 0.4f,
+     25.0f, 0.0f,  25.0f,  0.4f, 0.6f, 0.4f
+};
+
+GLuint floorIndices[] =
+{
+    0, 1, 2,
+    0, 2, 3
 };
 
 int main(void)
@@ -89,11 +105,9 @@ int main(void)
     string shaderDir = filesystem::current_path().string() + "/src/shaders/";
     string texturteDir = filesystem::current_path().string() + "/src/textures/";
 
-    // Generates Shader object using shaders defualt.vert and default.frag
-    Shader shaderProgram(
-        (shaderDir + "default.vert").c_str(),
-        (shaderDir + "default.frag").c_str()
-    );
+    DrawingHelper drawingHelper;
+    Shader textureShader = drawingHelper.setupShaderProgram(shaderDir, "default");
+    Shader colorShader = drawingHelper.setupShaderProgram(shaderDir, "color");
 
     // Generates Vertex Array Object and binds it
     VAO VAO1;
@@ -113,6 +127,22 @@ int main(void)
     VBO1.Unbind();
     EBO1.Unbind();
 
+    //Pod³oga
+
+    VAO floorVAO;
+    floorVAO.Bind();
+
+    VBO floorVBO(floorVertices, sizeof(floorVertices));
+    EBO floorEBO(floorIndices, sizeof(floorIndices));
+
+    // aPos = location 0 (3 floaty), aColor = location 1 (3 floaty)
+    floorVAO.LinkAttrib(floorVBO, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
+    floorVAO.LinkAttrib(floorVBO, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+
+    floorVAO.Unbind();
+    floorVBO.Unbind();
+    floorEBO.Unbind();
+
 
     //texture
 
@@ -120,34 +150,35 @@ int main(void)
     std::cout << "laduje teksture " << fullPath << std::endl;
 
     Texture linux((texturteDir + "penguin.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
-    linux.texUnit(shaderProgram, "tex0", 0);
+    linux.texUnit(textureShader, "tex0", 0);
 
 
     glEnable(GL_DEPTH_TEST);
 
-    Camera camera(mode->width, mode->height, glm::vec3(0.0f, 0.0f, 2.0f));
+    Camera camera(mode->width, mode->height, glm::vec3(0.0f, 1.0f, 2.0f));
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
-        // Specify the color of the background
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-        // Clean the back buffer and assign the new color to it
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        // Tell OpenGL which Shader Program we want to use
-        shaderProgram.Activate();
 
         camera.Inputs(window);
-        camera.Matrix(45.0f, 0.1f, 100.0f, shaderProgram, "camMatrix");
 
+        // --- PIRAMIDA ---
+        textureShader.Activate();
+        camera.Matrix(45.0f, 0.1f, 100.0f, textureShader, "camMatrix");
         linux.Bind();
-        // Bind the VAO so OpenGL knows to use it
         VAO1.Bind();
-        // Draw primitives, number of indices, datatype of indices, index of indices
         glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
-        // Swap the back buffer with the front buffer
+
+        // --- POD£OGA ---
+        colorShader.Activate();
+        camera.Matrix(45.0f, 0.1f, 100.0f, colorShader, "camMatrix");
+        floorVAO.Bind();
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
         glfwSwapBuffers(window);
-        // Take care of all GLFW events
         glfwPollEvents();
     }
 
@@ -157,7 +188,12 @@ int main(void)
     VBO1.Delete();
     EBO1.Delete();
     linux.Delete();
-    shaderProgram.Delete();
+    textureShader.Delete();
+
+    floorVAO.Delete();
+    floorVBO.Delete();
+    floorEBO.Delete();
+    colorShader.Delete();
     // Delete window before ending the program
     glfwDestroyWindow(window);
     // Terminate GLFW before ending the program

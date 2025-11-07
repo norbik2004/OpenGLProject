@@ -45,6 +45,9 @@
     <ClCompile Include="src\Camera.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="src\DrawingHelper.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\callbacks.h">
@@ -78,6 +81,9 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="include\Camera.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DrawingHelper.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
@@ -145,6 +151,8 @@
     <None Include="external\glfw-3.4.bin.WIN64\docs\html\window_guide.html" />
     <None Include="src\shaders\default.vert" />
     <None Include="src\shaders\default.frag" />
+    <None Include="src\shaders\color.frag" />
+    <None Include="src\shaders\color.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\textures\penguin.jpg">

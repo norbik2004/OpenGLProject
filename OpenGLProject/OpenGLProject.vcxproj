@@ -135,6 +135,7 @@
     <ClCompile Include="src\callbacks.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\DrawingHelper.cpp" />
     <ClCompile Include="src\EBO.cpp" />
     <ClCompile Include="src\shaderClass.cpp" />
     <ClCompile Include="src\stb.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="external\KHR\khrplatform.h" />
     <ClInclude Include="include\callbacks.h" />
     <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\DrawingHelper.h" />
     <ClInclude Include="include\EBO.h" />
     <ClInclude Include="include\shaderClass.h" />
     <ClInclude Include="include\Texture.h" />
@@ -217,6 +219,8 @@
     <None Include="external\glfw-3.4.bin.WIN64\docs\html\vulkan_guide.html" />
     <None Include="external\glfw-3.4.bin.WIN64\docs\html\window_8md.html" />
     <None Include="external\glfw-3.4.bin.WIN64\docs\html\window_guide.html" />
+    <None Include="src\shaders\color.frag" />
+    <None Include="src\shaders\color.vert" />
     <None Include="src\shaders\default.frag" />
     <None Include="src\shaders\default.vert" />
   </ItemGroup>

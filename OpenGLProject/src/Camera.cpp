@@ -107,4 +107,8 @@ void Camera::Inputs(GLFWwindow* window)
 		// Makes sure the next time the camera looks around it doesn't jump
 		firstClick = true;
 	}
+
+	if (Position.y < 1.0f)
+		Position.y = 1.0f;
+
 }
