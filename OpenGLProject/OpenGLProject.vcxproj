@@ -223,6 +223,8 @@
     <None Include="src\shaders\color.vert" />
     <None Include="src\shaders\default.frag" />
     <None Include="src\shaders\default.vert" />
+    <None Include="src\shaders\light.frag" />
+    <None Include="src\shaders\light.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\textures\penguin.jpg" />
