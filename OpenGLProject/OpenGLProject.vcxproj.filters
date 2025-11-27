@@ -48,6 +48,9 @@
     <ClCompile Include="src\DrawingHelper.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="src\Mesh.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\callbacks.h">
@@ -84,6 +87,9 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="include\DrawingHelper.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Mesh.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
@@ -153,6 +159,8 @@
     <None Include="src\shaders\default.frag" />
     <None Include="src\shaders\color.frag" />
     <None Include="src\shaders\color.vert" />
+    <None Include="src\shaders\light.frag" />
+    <None Include="src\shaders\light.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\textures\penguin.jpg">
