@@ -154,10 +154,12 @@
     <ClInclude Include="include\DrawingHelper.h" />
     <ClInclude Include="include\EBO.h" />
     <ClInclude Include="include\Mesh.h" />
+    <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\shaderClass.h" />
     <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\VAO.h" />
     <ClInclude Include="include\VBO.h" />
+    <ClInclude Include="include\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="external\glfw-3.4.bin.WIN64\docs\html\build_8md.html" />

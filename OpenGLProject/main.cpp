@@ -6,6 +6,7 @@
 
 #include "include/shaderClass.h"
 #include "include/Mesh.h"
+#include "include/Scene.h"
 #include <stb/stb_image.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -78,6 +79,7 @@ int main(void)
     GLFWwindow* window;
     GLFWmonitor* monitor;
     const GLFWvidmode* mode;
+    Scene scene;
 
     /* Initialize the library */
     if (!glfwInit())
@@ -162,9 +164,10 @@ int main(void)
     // Create light mesh
     Mesh light(lightVerts, lightInd, tex);
 
-
-
-
+    //add meshes
+    scene.AddMesh(&floor);
+    scene.AddMesh(&float1);
+    scene.AddMesh(&light);
 
     glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
@@ -208,9 +211,11 @@ int main(void)
 
 
         // Draws different meshes
-        floor.Draw(textureShader, camera);
-        float1.Draw(textureShader, camera);
-        light.Draw(lightShader, camera);
+        for (Mesh* m : scene.meshes)
+        {
+            // np. kolizje, rysowanie itp.
+            m->Draw(textureShader, camera);
+        }
 
 
         // Swap the back buffer with the front buffer
