@@ -80,6 +80,7 @@ int main(void)
     GLFWmonitor* monitor;
     const GLFWvidmode* mode;
     Scene scene;
+    DrawingHelper drawingHelper;
 
     /* Initialize the library */
     if (!glfwInit())
@@ -100,7 +101,7 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(mode->width, mode->height, "My Title", monitor, NULL);
+    window = glfwCreateWindow(mode->width, mode->height, "Liszaj", monitor, NULL);
 
 
     // IF window is not created, terminate
@@ -126,28 +127,29 @@ int main(void)
     //CALLBACKS
     glfwSetKeyCallback(window, key_callback);
 
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    ///                        TEXTURES  & SHADERS                                   ///
+    ////////////////////////////////////////////////////////////////////////////////////
     string shaderDir = filesystem::current_path().string() + "/src/shaders/";
     string texturteDir = filesystem::current_path().string() + "/src/textures/";
-
-    DrawingHelper drawingHelper;
+    
     Shader textureShader = drawingHelper.setupShaderProgram(shaderDir, "default");
     Shader colorShader = drawingHelper.setupShaderProgram(shaderDir, "color");
     Shader lightShader = drawingHelper.setupShaderProgram(shaderDir, "light");
 
-    //texture
-
     std::string fullPath = texturteDir + "penguin.png";
     std::cout << "laduje teksture " << fullPath << std::endl;
-
-
 
     Texture textures[]
     {
         Texture((texturteDir + "penguin.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE),
     };
-
-
     ////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+
+
     std::vector <Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
     std::vector <GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
     std::vector <Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
@@ -165,9 +167,9 @@ int main(void)
     Mesh light(lightVerts, lightInd, tex);
 
     //add meshes
-    scene.AddMesh(&floor);
-    scene.AddMesh(&float1);
-    scene.AddMesh(&light);
+    scene.AddTextureMesh(&floor);
+    scene.AddTextureMesh(&float1);
+    scene.AddLightMesh(&light);
 
     glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     glm::vec3 lightPos = glm::vec3(0.5f, 0.5f, 0.5f);
@@ -198,25 +200,13 @@ int main(void)
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
-        // Specify the color of the background
-        glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-        // Clean the back buffer and depth buffer
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
         // Handles camera inputs
         camera.Inputs(window);
         // Updates and exports the camera matrix to the Vertex Shader
         camera.updateMatrix(45.0f, 0.1f, 100.0f);
 
-
         // Draws different meshes
-        for (Mesh* m : scene.meshes)
-        {
-            // np. kolizje, rysowanie itp.
-            m->Draw(textureShader, camera);
-        }
-
+        drawingHelper.drawScene(textureShader, colorShader, lightShader, scene, camera);
 
         // Swap the back buffer with the front buffer
         glfwSwapBuffers(window);
@@ -224,10 +214,10 @@ int main(void)
         glfwPollEvents();
     }
 
-
     // Delete all the objects we've created
     textureShader.Delete();
     lightShader.Delete();
+    colorShader.Delete();
     // Delete window before ending the program
     glfwDestroyWindow(window);
     // Terminate GLFW before ending the program

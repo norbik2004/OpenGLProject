@@ -7,32 +7,21 @@ class Scene
 {
 public:
     // WskaŸniki na wszystkie mesh'e w scenie
-    std::vector<Mesh*> meshes;
+    std::vector<Mesh*> textureMeshes;
+    std::vector<Mesh*> colorMeshes;
+    std::vector<Mesh*> lightMeshes;
 
     Scene() = default;
 
     // Dodaje mesh do sceny
-    void AddMesh(Mesh* mesh)
-    {
-        meshes.push_back(mesh);
-    }
+    void AddTextureMesh(Mesh* mesh);
+    void AddColorMesh(Mesh* mesh);
+    void AddLightMesh(Mesh* mesh);
+
 
     // Usuwa mesh ze sceny
-    void RemoveMesh(Mesh* mesh)
-    {
-        meshes.erase(std::remove(meshes.begin(), meshes.end(), mesh), meshes.end());
-    }
+    void RemoveTextureMesh(Mesh* mesh);
+    void RemoveColorMesh(Mesh* mesh);
+    void RemoveLightMesh(Mesh* mesh);
 
-    // Zwraca liczbê meshów
-    size_t GetMeshCount() const
-    {
-        return meshes.size();
-    }
-
-    // Iteracja po wszystkich meshach
-    std::vector<Mesh*>::iterator begin() { return meshes.begin(); }
-    std::vector<Mesh*>::iterator end() { return meshes.end(); }
-
-    std::vector<Mesh*>::const_iterator begin() const { return meshes.begin(); }
-    std::vector<Mesh*>::const_iterator end() const { return meshes.end(); }
 };

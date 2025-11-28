@@ -1,3 +1,4 @@
+#pragma once
 #include "../include/Mesh.h"
 
 Mesh::Mesh(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vector<Texture>& textures)
@@ -35,7 +36,6 @@ void Mesh::Draw(Shader& shader, Camera& camera)
         glActiveTexture(GL_TEXTURE0);
         textures[0].Bind();
 
-        // uniform w shaderze MUSI nazywaæ siê "tex0"
         glUniform1i(glGetUniformLocation(shader.ID, "tex0"), 0);
     }
 
