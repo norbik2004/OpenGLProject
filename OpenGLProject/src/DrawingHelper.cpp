@@ -11,18 +11,11 @@ Shader DrawingHelper::setupShaderProgram(const std::string& shaderDir, const std
     return shaderProgram;
 }
 
-void DrawingHelper::drawScene(Shader& textureShader, Shader& colorShader, Shader& lightShader, Scene& scene, Camera& camera)
+void DrawingHelper::drawScene(Shader& textureShader, Scene& scene, Camera& camera)
 {
 
-    glClearColor(1.0f, 0.13f, 1.0f, 1.0f);
+    glClearColor(0.53f, 0.68f, 0.92f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    if (!scene.colorMeshes.empty()) {
-        for (Mesh* m : scene.colorMeshes)
-        {
-            m->Draw(colorShader, camera);
-        }
-    }
 
     if (!scene.textureMeshes.empty()) {
         for (Mesh* m : scene.textureMeshes)
@@ -30,11 +23,29 @@ void DrawingHelper::drawScene(Shader& textureShader, Shader& colorShader, Shader
             m->Draw(textureShader, camera);
         }
     }
+}
 
-    if (!scene.lightMeshes.empty()) {
-        for (Mesh* m : scene.lightMeshes)
-        {
-            m->Draw(lightShader, camera);
-        }
-    }
+
+void DrawingHelper::floorTiles(Texture textures[], Scene& scene)
+{
+    Vertex vertices[] =
+    {
+        Vertex{glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(1.0f), glm::vec3(0,1,0), glm::vec2(0.0f, 0.0f)},
+        Vertex{glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f), glm::vec3(0,1,0), glm::vec2(0.0f, 1.0f)},
+        Vertex{glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f), glm::vec3(0,1,0), glm::vec2(1.0f, 1.0f)},
+        Vertex{glm::vec3(1.0f, 0.0f, 1.0f), glm::vec3(1.0f), glm::vec3(0,1,0), glm::vec2(1.0f, 0.0f)}
+    };
+
+    GLuint indices[] =
+    {
+        0, 1, 2,
+        0, 2, 3
+    };
+
+    std::vector<Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
+    std::vector<GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
+    std::vector<Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
+
+    Mesh* tile = new Mesh(verts, ind, tex); // dynamiczne tworzenie
+    scene.AddTextureMesh(tile);
 }
