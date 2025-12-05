@@ -85,13 +85,17 @@ int main(void)
 
     Texture textures[]
     {
-        Texture((texturteDir + "tile933.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE),
+        Texture((texturteDir + "floor_tile.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE),
+        Texture((texturteDir + "wall_left.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE),
+        Texture((texturteDir + "wall.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE),
+        Texture((texturteDir + "wall_right.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE),
     };
     ////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////
 
     drawingHelper.floorTiles(textures, scene);
+    drawingHelper.spawnArea(textures, scene);
 
 
     glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -113,7 +117,7 @@ int main(void)
     glEnable(GL_DEPTH_TEST);
 
     // Creates camera object
-    Camera camera(mode->width, mode->height, glm::vec3(0.0f, 1.6f, 2.0f));
+    Camera camera(mode->width, mode->height, glm::vec3(0.5f, 1.6f, 0.5f));
 
 
     /* Loop until the user closes the window */

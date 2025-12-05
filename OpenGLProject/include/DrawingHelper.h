@@ -13,4 +13,5 @@ public:
         Camera& camera);
 
     void floorTiles(Texture textures[], Scene& scene);
+    void spawnArea(Texture textures[], Scene& scene);
 };

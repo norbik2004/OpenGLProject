@@ -166,16 +166,9 @@
     <None Include="external\glfw-3.4.bin.WIN64\docs\html\window_guide.html" />
     <None Include="src\shaders\default.vert" />
     <None Include="src\shaders\default.frag" />
-    <None Include="src\shaders\color.frag" />
-    <None Include="src\shaders\color.vert" />
-    <None Include="src\shaders\light.frag" />
-    <None Include="src\shaders\light.vert" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="src\textures\penguin.jpg">
-      <Filter>Pliki zasobów</Filter>
-    </Image>
-    <Image Include="src\textures\penguin.png">
+    <Image Include="src\textures\tile933.png">
       <Filter>Pliki zasobów</Filter>
     </Image>
   </ItemGroup>
