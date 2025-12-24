@@ -228,7 +228,11 @@
     <None Include="src\shaders\default.vert" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="src\textures\floor_tile.png" />
     <Image Include="src\textures\tile933.png" />
+    <Image Include="src\textures\wall.png" />
+    <Image Include="src\textures\wall_left.png" />
+    <Image Include="src\textures\wall_right.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
