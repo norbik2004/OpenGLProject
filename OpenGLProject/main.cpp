@@ -5,6 +5,7 @@
 #include <filesystem>
 
 #include "include/shaderClass.h"
+#include "include/Model.h"
 #include "include/Mesh.h"
 #include "include/Scene.h"
 #include <stb/stb_image.h>
@@ -73,24 +74,31 @@ int main(void)
 	////////////////////////////////////////////////////////////////////////////////////
 	string shaderDir = filesystem::current_path().string() + "/src/shaders/";
 	string texturteDir = filesystem::current_path().string() + "/src/textures/";
+	string modelDir = filesystem::current_path().string() + "/src/models/";
 
 	Shader textureShader = drawingHelper.setupShaderProgram(shaderDir, "default");
 
 	std::string fullPath = texturteDir + "tile933.png";
 	std::cout << "laduje teksture " << fullPath << std::endl;
 
-	Texture textures[]
+	/*
+
+		Texture textures[]
 	{
-		Texture((texturteDir + "floor_tile.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE),
-		Texture((texturteDir + "wall.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE),
+		Texture((texturteDir + "floor_tile.png").c_str(), ),
+		Texture((texturteDir + "wall.png").c_str(), ),
 	};
+
+	*/
+
 	////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////
 
+	/*
 	drawingHelper.floorTiles(textures, scene);
 	drawingHelper.spawnArea(textures, scene);
-
+	*/
 
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	glm::vec3 lightPos = glm::vec3(0.5f, 50.0f, 0.5f);
@@ -110,6 +118,9 @@ int main(void)
 	// Enables the Depth Buffer
 	glEnable(GL_DEPTH_TEST);
 
+	//SETUP THE MODEL
+	Model model((modelDir + "myModel.gltf").c_str());
+
 	// Creates camera object
 	Camera camera(screenWidth, screenHeight, glm::vec3(0.5f, 1.6f, 0.5f));
 
@@ -124,6 +135,7 @@ int main(void)
 
 		// Draws different meshes
 		drawingHelper.drawScene(textureShader, scene, camera);
+		model.Draw(textureShader, camera);
 
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);

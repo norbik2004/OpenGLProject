@@ -138,6 +138,7 @@
     <ClCompile Include="src\DrawingHelper.cpp" />
     <ClCompile Include="src\EBO.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\shaderClass.cpp" />
     <ClCompile Include="src\stb.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="include\DrawingHelper.h" />
     <ClInclude Include="include\EBO.h" />
     <ClInclude Include="include\Mesh.h" />
+    <ClInclude Include="include\Model.h" />
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\shaderClass.h" />
     <ClInclude Include="include\Texture.h" />
