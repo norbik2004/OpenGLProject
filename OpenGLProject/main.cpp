@@ -42,7 +42,7 @@ int main(void)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	window = glfwCreateWindow(screenWidth, screenHeight, "Liszaj", monitor, NULL);
+	window = glfwCreateWindow(screenWidth, screenHeight, "Liszaj", NULL, NULL);
 
 
 	// IF window is not created, terminate
@@ -119,7 +119,7 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 
 	//SETUP THE MODEL
-	Model model((modelDir + "myModel.gltf").c_str());
+	Model model((modelDir + "sword.gltf").c_str());
 
 	// Creates camera object
 	Camera camera(screenWidth, screenHeight, glm::vec3(0.5f, 1.6f, 0.5f));
