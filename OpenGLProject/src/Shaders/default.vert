@@ -28,19 +28,17 @@ uniform mat4 model;
 uniform mat4 translation;
 uniform mat4 rotation;
 uniform mat4 scale;
-
+uniform float uScale;
 
 void main()
 {
-	// calculates current position
-	crntPos = vec3(model * translation * -rotation * scale * vec4(aPos, 1.0f));
-	// Assigns the normal from the Vertex Data to "Normal"
-	Normal = aNormal;
-	// Assigns the colors from the Vertex Data to "color"
-	color = aColor;
-	// Assigns the texture coordinates from the Vertex Data to "texCoord"
-	texCoord = mat2(0.0, -1.0, 1.0, 0.0) * aTex;
-	
-	// Outputs the positions/coordinates of all vertices
-	gl_Position = camMatrix * vec4(crntPos, 1.0);
+    vec3 scaledPos = aPos * uScale;
+
+    crntPos = vec3(model * translation * rotation * vec4(scaledPos, 1.0));
+
+    Normal = mat3(transpose(inverse(model))) * aNormal;
+    color = aColor;
+    texCoord = vec2(aTex.x, 1.0 - aTex.y);
+
+    gl_Position = camMatrix * vec4(crntPos, 1.0);
 }

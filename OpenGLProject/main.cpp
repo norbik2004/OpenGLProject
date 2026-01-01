@@ -100,31 +100,38 @@ int main(void)
 	drawingHelper.spawnArea(textures, scene);
 	*/
 
-	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	glm::vec3 lightPos = glm::vec3(0.5f, 50.0f, 0.5f);
-	glm::mat4 lightModel = glm::mat4(1.0f);
-	lightModel = glm::translate(lightModel, lightPos);
+	glm::vec3 lightPos = glm::vec3(0.5f, 5.0f, 0.5f); // ni¿ej, bli¿ej modelu
+	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f); // bia³e œwiat³o
 
+	// --- MODEL ---
 	glm::vec3 objectPos = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::mat4 objectModel = glm::mat4(1.0f);
-	objectModel = glm::translate(objectModel, objectPos);
+	glm::mat4 objectModel = glm::translate(glm::mat4(1.0f), objectPos);
 
+	// --- Ustawienia shaderów ---
 	textureShader.Activate();
 	glUniformMatrix4fv(glGetUniformLocation(textureShader.ID, "model"), 1, GL_FALSE, glm::value_ptr(objectModel));
-	glUniform4f(glGetUniformLocation(textureShader.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 	glUniform3f(glGetUniformLocation(textureShader.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
+	glUniform4f(glGetUniformLocation(textureShader.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+	glUniform1i(glGetUniformLocation(textureShader.ID, "useTexture"), false);
 
 
 	// Enables the Depth Buffer
 	glEnable(GL_DEPTH_TEST);
 
 	//SETUP THE MODEL
-	Model model((modelDir + "sword.gltf").c_str());
+	Model model((modelDir + "Human.OBJ").c_str());
+
+	std::cout << "Meshes loaded: " << model.meshes.size() << std::endl;
+	if (!model.meshes.empty())
+	{
+		std::cout << "Vertices in first mesh: " << model.meshes[0].vertices.size() << std::endl;
+		std::cout << "Indices in first mesh: " << model.meshes[0].indices.size() << std::endl;
+	}
 
 	// Creates camera object
 	Camera camera(screenWidth, screenHeight, glm::vec3(0.5f, 1.6f, 0.5f));
 
-
+	glm::mat4 modelMat = glm::mat4(1.0f);
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
@@ -135,7 +142,7 @@ int main(void)
 
 		// Draws different meshes
 		drawingHelper.drawScene(textureShader, scene, camera);
-		model.Draw(textureShader, camera);
+		model.Draw(textureShader, camera, modelMat);
 
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
