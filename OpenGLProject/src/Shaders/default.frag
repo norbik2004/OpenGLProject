@@ -7,34 +7,22 @@ in vec3 Normal;
 in vec3 color;
 in vec2 texCoord;
 
-// Œwiat³o
 uniform vec4 lightColor;
 uniform vec3 lightPos;
 
-// Tekstura (opcjonalna)
 uniform sampler2D tex0;
-uniform bool useTexture; // ustaw true jeœli chcesz teksturê
+uniform bool useTexture; // true if you want to sample the texture
 
 void main()
 {
-    // Normalne
-    vec3 norm = normalize(Normal);
-
-    vec3 lightDir = normalize(lightPos - crntPos);
-
-    // Diffuse + ambient
-    float diffuse = max(dot(norm, lightDir), 0.0);
-    float ambient = 0.2;
-
-    vec4 baseColor;
-    if (useTexture) {
-        baseColor = texture(tex0, texCoord);
-        if(baseColor.a < 0.1) // jeœli brak tekstury, u¿yj kremowego
-            baseColor = vec4(1.0, 0.9, 0.7, 1.0);
-    } else {
-        baseColor = vec4(1.0, 0.9, 0.7, 1.0); // kremowy
-    }
-
-    // Finalne œwiat³o
-    FragColor = baseColor * (ambient + diffuse) * lightColor;
+	vec3 norm = normalize(Normal);
+	vec3 lightDir = normalize(lightPos - crntPos); // vector from vertex to light
+	
+	float diffuse = max(dot(norm, lightDir), 0.0);
+	float ambient = 0.2;
+	
+	vec3 lighting = (ambient + diffuse) * lightColor.rgb;
+	
+	vec4 baseColor = useTexture ? texture(tex0, texCoord) : vec4(color, 1.0);
+	FragColor = vec4(baseColor.rgb * lighting, baseColor.a);
 }

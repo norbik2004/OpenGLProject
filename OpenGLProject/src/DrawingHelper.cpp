@@ -15,6 +15,8 @@ void DrawingHelper::drawScene(Shader& textureShader, Scene& scene, Camera& camer
 {
 	glClearColor(0.53f, 0.68f, 0.92f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glUniform1f(glGetUniformLocation(textureShader.ID, "uScale"), 1.0f);
+	glUniform1i(glGetUniformLocation(textureShader.ID, "useTexture"), true);
 
 	if (!scene.textureMeshes.empty()) {
 		for (Mesh* m : scene.textureMeshes)
@@ -46,7 +48,7 @@ void DrawingHelper::floorTiles(Texture textures[], Scene& scene)
 
 	std::vector<Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
 	std::vector<GLuint> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
-	std::vector<Texture> tex(textures, textures + sizeof(textures) / sizeof(Texture));
+	std::vector<Texture> tex{ textures[0] };
 
 	Mesh* tile = new Mesh(verts, ind, tex); // dynamiczne tworzenie
 	scene.AddTextureMesh(tile);

@@ -78,29 +78,26 @@ int main(void)
 
 	Shader textureShader = drawingHelper.setupShaderProgram(shaderDir, "default");
 
-	std::string fullPath = texturteDir + "tile933.png";
-	std::cout << "laduje teksture " << fullPath << std::endl;
 
-	/*
 
-		Texture textures[]
+	Texture textures[]
 	{
-		Texture((texturteDir + "floor_tile.png").c_str(), ),
-		Texture((texturteDir + "wall.png").c_str(), ),
+		Texture((texturteDir + "floor_tile.png").c_str(), "diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE),
+		Texture((texturteDir + "wall.png").c_str(), "diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE),
 	};
 
-	*/
+
 
 	////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////
 
-	/*
+
 	drawingHelper.floorTiles(textures, scene);
 	drawingHelper.spawnArea(textures, scene);
-	*/
 
-	glm::vec3 lightPos = glm::vec3(0.5f, 5.0f, 0.5f); // ni¿ej, bli¿ej modelu
+
+	glm::vec3 lightPos = glm::vec3(50.0f, 50.0f, 50.0f);
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f); // bia³e œwiat³o
 
 	// --- MODEL ---
@@ -119,6 +116,9 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 
 	//SETUP THE MODEL
+
+
+
 	Model model((modelDir + "Human.OBJ").c_str());
 
 	std::cout << "Meshes loaded: " << model.meshes.size() << std::endl;
@@ -127,6 +127,7 @@ int main(void)
 		std::cout << "Vertices in first mesh: " << model.meshes[0].vertices.size() << std::endl;
 		std::cout << "Indices in first mesh: " << model.meshes[0].indices.size() << std::endl;
 	}
+
 
 	// Creates camera object
 	Camera camera(screenWidth, screenHeight, glm::vec3(0.5f, 1.6f, 0.5f));
@@ -142,6 +143,7 @@ int main(void)
 
 		// Draws different meshes
 		drawingHelper.drawScene(textureShader, scene, camera);
+		glUniform1i(glGetUniformLocation(textureShader.ID, "useTexture"), false);
 		model.Draw(textureShader, camera, modelMat);
 
 		// Swap the back buffer with the front buffer

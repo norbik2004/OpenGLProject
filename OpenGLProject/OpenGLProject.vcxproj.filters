@@ -36,9 +36,6 @@
     <ClCompile Include="src\VAO.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="src\stb.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="src\Texture.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
@@ -55,6 +52,9 @@
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="src\Model.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stb.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
@@ -172,6 +172,9 @@
     <None Include="external\glfw-3.4.bin.WIN64\docs\html\window_guide.html" />
     <None Include="src\shaders\default.vert" />
     <None Include="src\shaders\default.frag" />
+    <None Include="src\models\scene.bin">
+      <Filter>Pliki zasobów</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\textures\tile933.png">

@@ -38,7 +38,7 @@ void main()
 
     Normal = mat3(transpose(inverse(model))) * aNormal;
     color = aColor;
-    texCoord = vec2(aTex.x, 1.0 - aTex.y);
+    texCoord = aTex;
 
     gl_Position = camMatrix * vec4(crntPos, 1.0);
 }
