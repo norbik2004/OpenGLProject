@@ -29,15 +29,15 @@ void DrawingHelper::drawScene(Shader& textureShader, Scene& scene, Camera& camer
 
 void DrawingHelper::floorTiles(Texture textures[], Scene& scene)
 {
-	float repeatX = 100.0f;
-	float repeatZ = 100.0f;
+	float repeatX = 40.0f;
+	float repeatZ = 40.0f;
 
 	Vertex vertices[] =
 	{
-		Vertex{glm::vec3(0.0f, 0.0f, 100.0f), glm::vec3(1.0f), glm::vec3(0,1,0), glm::vec2(0.0f, 0.0f)},
-		Vertex{glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f), glm::vec3(0,1,0), glm::vec2(0.0f, repeatZ)},
-		Vertex{glm::vec3(100.0f, 0.0f, 0.0f), glm::vec3(1.0f), glm::vec3(0,1,0), glm::vec2(repeatX, repeatZ)},
-		Vertex{glm::vec3(100.0f, 0.0f, 100.0f), glm::vec3(1.0f), glm::vec3(0,1,0), glm::vec2(repeatX, 0.0f)}
+		Vertex{glm::vec3(-20.0f, -7.5f, 20.0f), glm::vec3(1.0f), glm::vec3(0,1,0), glm::vec2(0.0f, 0.0f)},
+		Vertex{glm::vec3(-20.0f, -7.5f, -20.0f), glm::vec3(1.0f), glm::vec3(0,1,0), glm::vec2(0.0f, repeatZ)},
+		Vertex{glm::vec3(20.0f, -7.5f, -20.0f), glm::vec3(1.0f), glm::vec3(0,1,0), glm::vec2(repeatX, repeatZ)},
+		Vertex{glm::vec3(20.0f, -7.5f, 20.0f), glm::vec3(1.0f), glm::vec3(0,1,0), glm::vec2(repeatX, 0.0f)}
 	};
 
 	GLuint indices[] =
@@ -54,50 +54,4 @@ void DrawingHelper::floorTiles(Texture textures[], Scene& scene)
 	scene.AddTextureMesh(tile);
 }
 
-void DrawingHelper::spawnArea(Texture textures[], Scene& scene)
-{
-	float height = 3.0f;
-
-	// --- WALL SEGMENT ----------------------------------------------------
-
-	Vertex wallsVerts[] =
-	{
-		// tylna
-		{ {0, 0, 0},   {1,1,1}, {0,0,1}, {0, 3} },
-		{ {0, 3, 0},   {1,1,1}, {0,0,1}, {0, 0} },
-		{ {10, 3, 0},  {1,1,1}, {0,0,1}, {10, 0} },
-		{ {10, 0, 0},  {1,1,1}, {0,0,1}, {10, 3} },
-		// prawa
-		{ {10, 3, 0},   {1,1,1}, {0,0,1}, {0, 0} },
-		{ {10, 0, 0},   {1,1,1}, {0,0,1}, {0, 3} },
-		{ {10, 0, 10},  {1,1,1}, {0,0,1}, {10, 3} },
-		{ {10, 3, 10},  {1,1,1}, {0,0,1}, {10, 0} },
-		// lewa
-		{ {0, 3, 0},   {1,1,1}, {0,0,1}, {0, 0} },
-		{ {0, 0, 0},   {1,1,1}, {0,0,1}, {0, 3} },
-		{ {0, 0, 10},  {1,1,1}, {0,0,1}, {10, 3} },
-		{ {0, 3, 10},  {1,1,1}, {0,0,1}, {10, 0} },
-
-	};
-
-	GLuint wallIndiecies[] =
-	{
-		// tylna
-		0,1,2,
-		0,2,3,
-		// prawa
-		4, 5, 6,
-		4, 6, 7,
-		8,9,10,
-		8,10,11
-	};
-
-	std::vector<Vertex> verts(wallsVerts, wallsVerts + sizeof(wallsVerts) / sizeof(Vertex));
-	std::vector<GLuint> indicies(wallIndiecies, wallIndiecies + sizeof(wallIndiecies) / sizeof(GLuint));
-	std::vector<Texture> tex = { textures[1] };
-
-	Mesh* wall = new Mesh(verts, indicies, tex);
-	scene.AddTextureMesh(wall);
-
-}
 
