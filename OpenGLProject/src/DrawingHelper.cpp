@@ -1,4 +1,7 @@
 #include "../include/DrawingHelper.h"
+#include "../include/Model.h"
+#include <filesystem>
+using namespace std;
 
 Shader DrawingHelper::setupShaderProgram(const std::string& shaderDir, const std::string& name) const
 {
@@ -8,10 +11,24 @@ Shader DrawingHelper::setupShaderProgram(const std::string& shaderDir, const std
 
 	// Tworzymy shader i zwracamy
 	Shader shaderProgram(vertexPath.c_str(), fragmentPath.c_str());
+
+	glm::vec3 lightPos = glm::vec3(0.0f, 100.0f, 0.0f);
+	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f); // bia³e œwiat³o
+
+	// --- MODEL ---
+	glm::vec3 objectPos = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::mat4 objectModel = glm::translate(glm::mat4(1.0f), objectPos);
+
+	// --- Ustawienia shaderów ---
+	shaderProgram.Activate();
+	glUniformMatrix4fv(glGetUniformLocation(shaderProgram.ID, "model"), 1, GL_FALSE, glm::value_ptr(objectModel));
+	glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
+	glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+	glUniform1i(glGetUniformLocation(shaderProgram.ID, "useTexture"), false);
 	return shaderProgram;
 }
 
-void DrawingHelper::drawScene(Shader& textureShader, Scene& scene, Camera& camera)
+void DrawingHelper::drawScene(Shader& textureShader, Scene& scene, Camera& camera, Model* human)
 {
 	glClearColor(0.53f, 0.68f, 0.92f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -24,11 +41,21 @@ void DrawingHelper::drawScene(Shader& textureShader, Scene& scene, Camera& camer
 			m->Draw(textureShader, camera);
 		}
 	}
+
+	glUniform1i(glGetUniformLocation(textureShader.ID, "useTexture"), false);
+	if (human)
+		human->Draw(textureShader, camera, glm::mat4(1.0f));
 }
 
 
-void DrawingHelper::floorTiles(Texture textures[], Scene& scene)
+void DrawingHelper::floorTiles(Scene& scene)
 {
+	Texture textures[]
+	{
+		Texture((filesystem::current_path().string() + "/src/textures/" + "floor_tile.png").c_str(), "diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE),
+		Texture((filesystem::current_path().string() + "/src/textures/" + "wall.png").c_str(), "diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE),
+	};
+
 	float repeatX = 40.0f;
 	float repeatZ = 40.0f;
 
@@ -52,6 +79,22 @@ void DrawingHelper::floorTiles(Texture textures[], Scene& scene)
 
 	Mesh* tile = new Mesh(verts, ind, tex); // dynamiczne tworzenie
 	scene.AddTextureMesh(tile);
+}
+
+Model* DrawingHelper::humanModel()
+{
+	std::string path = filesystem::current_path().string() + "/src/models/Human.OBJ";
+
+	Model* model = new Model(path.c_str());
+
+	std::cout << "Meshes loaded: " << model->meshes.size() << std::endl;
+	if (!model->meshes.empty())
+	{
+		std::cout << "Vertices in first mesh: " << model->meshes[0].vertices.size() << std::endl;
+		std::cout << "Indices in first mesh: " << model->meshes[0].indices.size() << std::endl;
+	}
+
+	return model;
 }
 
 

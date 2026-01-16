@@ -19,7 +19,7 @@ void main()
 	vec3 lightDir = normalize(lightPos - crntPos); // vector from vertex to light
 	
 	float diffuse = max(dot(norm, lightDir), 0.0);
-	float ambient = 0.2;
+	float ambient = 0.3;
 	
 	vec3 lighting = (ambient + diffuse) * lightColor.rgb;
 	

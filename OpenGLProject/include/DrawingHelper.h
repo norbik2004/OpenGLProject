@@ -3,6 +3,7 @@
 #include "shaderClass.h"
 #include "Scene.h"
 #include "Camera.h"
+#include "Model.h"
 
 class DrawingHelper {
 public:
@@ -10,7 +11,10 @@ public:
 
     void drawScene(Shader& textureShader,
         Scene& scene,
-        Camera& camera);
+        Camera& camera,
+        Model* human);
 
-    void floorTiles(Texture textures[], Scene& scene);
+    void floorTiles(Scene& scene);
+
+    Model* humanModel();
 };
