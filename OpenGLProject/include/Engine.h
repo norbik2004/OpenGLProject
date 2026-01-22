@@ -12,6 +12,8 @@ public:
 
     bool initWindow(GLFWmonitor* selectedMonitor, const std::string& title);
 
+    void showSplash(const std::string& imagePath);
+
     GLFWwindow* getWindow() const { return window; }
     int getSreenWidth() const { return screenWidth; }
     int getSreenHeight() const { return screenHeight; }

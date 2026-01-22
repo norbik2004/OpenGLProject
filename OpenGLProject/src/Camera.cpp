@@ -16,7 +16,7 @@ void Camera::updateMatrix(float FOVdeg, float nearPlane, float farPlane)
 	glm::mat4 projection = glm::mat4(1.0f);
 
 	// Makes camera look in the right direction from the right position
-	view = glm::lookAt(Position, Position + Orientation, Up);
+	view = glm::lookAt(Position, Position + Orientation,Up);
 	// Adds perspective to the scene
 	projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
 
@@ -37,6 +37,7 @@ void Camera::Inputs(GLFWwindow* window)
 	{
 		glm::vec3 forward = glm::normalize(glm::vec3(Orientation.x, 0.0f, Orientation.z));
 		Position += speed * forward;
+
 	}
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
@@ -59,17 +60,29 @@ void Camera::Inputs(GLFWwindow* window)
 	{
 		Position += speed * Up;
 	}
-	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-	{
-		Position += speed * -Up;
-	}
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
-		speed = 0.05f;
+		Position += speed * -Up;
+
+		if (Position.y < -5.5f) {
+			Position.y = -5.5f;
+		}
 	}
-	else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
-	{
-		speed = 0.009f;
+
+	if (Position.x < -20.0f) {
+		Position.x = -20.0f;
+	}
+
+	if (Position.x > 20.0f) {
+		Position.x = 20.0f;
+	}
+
+	if (Position.z < -20.0f) {
+		Position.z = -20.0f;
+	}
+
+	if (Position.z > 20.0f) {
+		Position.z = 20.0f;
 	}
 
 

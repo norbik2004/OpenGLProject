@@ -57,6 +57,12 @@
     <ClCompile Include="src\stb.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InfectionController.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\callbacks.h">
@@ -105,6 +111,12 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="include\Model.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Engine.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="include\InfectionController.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>
@@ -190,6 +202,9 @@
       <Filter>Pliki zasobów</Filter>
     </Image>
     <Image Include="src\textures\wall_right.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="src\textures\splashScreen.png">
       <Filter>Pliki zasobów</Filter>
     </Image>
   </ItemGroup>
