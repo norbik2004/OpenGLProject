@@ -30,5 +30,8 @@ public:
 		glm::quat rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
 		glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f)
 	);
+
+	//void UpdateVertices();
+	void UpdateVertices(const std::vector<GLuint>& indicesToUpdate);
 };
 #endif
