@@ -6,7 +6,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "../include/Texture.h"
 
-// hash function for Vertex if u¿ywasz unordered_map
 struct VertexHash
 {
 	size_t operator()(const Vertex& v) const {
@@ -104,7 +103,7 @@ void Model::loadFromFile(const std::string& path)
                 vert.texUV = temp_texcoords.size() > 0 ? temp_texcoords[ti] : glm::vec2(0, 0);
                 vert.color = glm::vec3(1.0f);
 
-                vertices.push_back(vert);          // <-- wszystkie wierzcho³ki po kolei
+                vertices.push_back(vert);
                 faceIndices.push_back(vertices.size() - 1);
             }
 
@@ -133,7 +132,6 @@ void Model::Draw(Shader& shader, Camera& camera, const glm::mat4& modelMatrix)
 {
 	for (auto& mesh : meshes)
 	{
-		// przeka¿ modelMatrix do shadera
 		shader.Activate();
 		glUniformMatrix4fv(glGetUniformLocation(shader.ID, "model"), 1, GL_FALSE, glm::value_ptr(modelMatrix));
 		glUniformMatrix4fv(glGetUniformLocation(shader.ID, "camMatrix"), 1, GL_FALSE, glm::value_ptr(camera.cameraMatrix));

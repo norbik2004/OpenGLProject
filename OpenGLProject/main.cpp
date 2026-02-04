@@ -42,16 +42,31 @@ int main(void)
 	InfectionController infection;
     infection.init(human->meshes[0]);
 	glfwSetWindowUserPointer(window, &infection);
+	float lastFrame = glfwGetTime();
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
+		float currentFrame = glfwGetTime();
+		float deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
 		// Handles camera inputs
 		camera.Inputs(window);
 		// Updates and exports the camera matrix to the Vertex Shader
 		camera.updateMatrix(45.0f, 0.1f, 100.0f);
 
-		infection.update();
+		infection.update(deltaTime);
+
+		std::string title = "Liszaj | "
+			"Green: " + std::to_string(infection.greenIndex) + "/" + std::to_string(infection.infectionQueue.size()) +
+			(infection.greenActive ? " (Active)" : " (Stopped)") + " | "
+			"Blue: " + std::to_string(infection.blueIndex) + "/" + std::to_string(infection.infectionQueue.size()) +
+			(infection.blueActive ? " (Active)" : " (Stopped)") + " | "
+			"Triangles/update: " + std::to_string((int)infection.trianglesPerUpdate) + " | "
+			"Update interval: " + std::to_string(infection.updateInterval) + "s" + " | "
+			"Status: " + (infection.paused ? "Paused" : "Running");
+
+		glfwSetWindowTitle(window, title.c_str());
 
 		// Draws different meshes
 		drawingHelper.drawScene(textureShader, scene, camera, human);

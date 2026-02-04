@@ -4,6 +4,9 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <windows.h>
+#include <GLFW/glfw3.h>
+#include <GLFW/glfw3native.h> 
 
 Engine::Engine() {}
 
@@ -46,6 +49,7 @@ bool Engine::initWindow(GLFWmonitor* selectedMonitor, const std::string& title)
     glfwSetMouseButtonCallback(window, mouse_button_callback);
 
     glEnable(GL_DEPTH_TEST);
+
 
     return true;
 }
