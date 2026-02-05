@@ -40,7 +40,7 @@ int main(void)
 
 	//start of infection
 	InfectionController infection;
-    infection.init(human->meshes[0]);
+    infection.init(human->getMeshes()[0]);
 	glfwSetWindowUserPointer(window, &infection);
 	float lastFrame = glfwGetTime();
 
@@ -79,7 +79,7 @@ int main(void)
 
 	// Delete all the objects we've created
 	textureShader.Delete();
-	for (auto mesh : scene.textureMeshes) {
+	for (auto mesh : scene.getTextureMeshes()) {
 		scene.RemoveTextureMesh(mesh);
 	}
 	// Delete window before ending the program

@@ -21,10 +21,10 @@ Shader DrawingHelper::setupShaderProgram(const std::string& shaderDir, const std
 
 	// --- Ustawienia shaderów ---
 	shaderProgram.Activate();
-	glUniformMatrix4fv(glGetUniformLocation(shaderProgram.ID, "model"), 1, GL_FALSE, glm::value_ptr(objectModel));
-	glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
-	glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-	glUniform1i(glGetUniformLocation(shaderProgram.ID, "useTexture"), false);
+	glUniformMatrix4fv(glGetUniformLocation(shaderProgram.getID(), "model"), 1, GL_FALSE, glm::value_ptr(objectModel));
+	glUniform3f(glGetUniformLocation(shaderProgram.getID(), "lightPos"), lightPos.x, lightPos.y, lightPos.z);
+	glUniform4f(glGetUniformLocation(shaderProgram.getID(), "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+	glUniform1i(glGetUniformLocation(shaderProgram.getID(), "useTexture"), false);
 	return shaderProgram;
 }
 
@@ -32,17 +32,17 @@ void DrawingHelper::drawScene(Shader& textureShader, Scene& scene, Camera& camer
 {
 	glClearColor(0.53f, 0.68f, 0.92f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glUniform1f(glGetUniformLocation(textureShader.ID, "uScale"), 1.0f);
-	glUniform1i(glGetUniformLocation(textureShader.ID, "useTexture"), true);
+	glUniform1f(glGetUniformLocation(textureShader.getID(), "uScale"), 1.0f);
+	glUniform1i(glGetUniformLocation(textureShader.getID(), "useTexture"), true);
 
-	if (!scene.textureMeshes.empty()) {
-		for (Mesh* m : scene.textureMeshes)
+	if (!scene.getTextureMeshes().empty()) {
+		for (Mesh* m : scene.getTextureMeshes())
 		{
 			m->Draw(textureShader, camera);
 		}
 	}
 
-	glUniform1i(glGetUniformLocation(textureShader.ID, "useTexture"), false);
+	glUniform1i(glGetUniformLocation(textureShader.getID(), "useTexture"), false);
 	if (human)
 		human->Draw(textureShader, camera, glm::mat4(1.0f));
 }
@@ -87,11 +87,11 @@ Model* DrawingHelper::humanModel()
 
 	Model* model = new Model(path.c_str());
 
-	std::cout << "Meshes loaded: " << model->meshes.size() << std::endl;
-	if (!model->meshes.empty())
+	std::cout << "Meshes loaded: " << model->getMeshes().size() << std::endl;
+	if (!model->getMeshes().empty())
 	{
-		std::cout << "Vertices in first mesh: " << model->meshes[0].vertices.size() << std::endl;
-		std::cout << "Indices in first mesh: " << model->meshes[0].indices.size() << std::endl;
+		std::cout << "Vertices in first mesh: " << model->getMeshes()[0].getVertices().size() << std::endl;
+		std::cout << "Indices in first mesh: " << model->getMeshes()[0].getIndices().size() << std::endl;
 	}
 
 	return model;

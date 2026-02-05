@@ -9,7 +9,6 @@
 class Model
 {
 public:
-	std::vector<Mesh> meshes;
 
 	Model() = default;
 	explicit Model(const std::string& path) { loadFromFile(path); }
@@ -18,6 +17,10 @@ public:
 
 	// draw with shader and camera
 	void Draw(Shader& shader, Camera& camera, const glm::mat4& modelMatrix = glm::mat4(1.0f));
+	std::vector<Mesh>& getMeshes() { return meshes; }
+
+private:
+	std::vector<Mesh> meshes;
 };
 
 #endif

@@ -6,8 +6,6 @@
 class Scene
 {
 public:
-    // Wskaüniki na wszystkie mesh'e w scenie
-    std::vector<Mesh*> textureMeshes;
 
     Scene() = default;
 
@@ -15,5 +13,8 @@ public:
     void AddTextureMesh(Mesh* mesh);
     // Usuwa mesh ze sceny
     void RemoveTextureMesh(Mesh* mesh);
+    const std::vector<Mesh*>& getTextureMeshes() const { return textureMeshes; }
 
+private:
+    std::vector<Mesh*> textureMeshes;
 };

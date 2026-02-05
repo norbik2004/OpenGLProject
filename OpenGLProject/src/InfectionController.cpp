@@ -12,7 +12,7 @@ void InfectionController::init(Mesh& m)
     glm::vec3 min(FLT_MAX);
     glm::vec3 max(-FLT_MAX);
 
-    for (auto& v : m.vertices)
+    for (auto& v : m.getVertices())
     {
         min = glm::min(min, v.position);
         max = glm::max(max, v.position);
@@ -24,7 +24,7 @@ void InfectionController::init(Mesh& m)
         (min.z + max.z) * 0.5f + 0.2f * (max.z - min.z)
     );
 
-    size_t triCount = m.indices.size() / 3;
+    size_t triCount = m.getIndices().size() / 3;
     infectionQueue.resize(triCount);
 
     for (size_t i = 0; i < triCount; ++i)
@@ -36,9 +36,9 @@ void InfectionController::init(Mesh& m)
             auto center = [&](size_t t)
                 {
                     return (
-                        mesh->vertices[mesh->indices[t * 3 + 0]].position +
-                        mesh->vertices[mesh->indices[t * 3 + 1]].position +
-                        mesh->vertices[mesh->indices[t * 3 + 2]].position
+                        mesh->getVertices()[mesh->getIndices()[t * 3 + 0]].position +
+                        mesh->getVertices()[mesh->getIndices()[t * 3 + 1]].position +
+                        mesh->getVertices()[mesh->getIndices()[t * 3 + 2]].position
                         ) / 3.0f;
                 };
 
@@ -100,8 +100,8 @@ void InfectionController::update(float deltaTime)
             size_t t = infectionQueue[greenIndex++];
             for (int j = 0; j < 3; ++j)
             {
-                GLuint vIdx = mesh->indices[t * 3 + j];
-                mesh->vertices[vIdx].color = greenColor;
+                GLuint vIdx = mesh->getIndices()[t * 3 + j];
+                mesh->getVertices()[vIdx].color = greenColor;
             }
         }
 
@@ -125,8 +125,8 @@ void InfectionController::update(float deltaTime)
             size_t t = infectionQueue[blueIndex++];
             for (int j = 0; j < 3; ++j)
             {
-                GLuint vIdx = mesh->indices[t * 3 + j];
-                mesh->vertices[vIdx].color = blueColor;
+                GLuint vIdx = mesh->getIndices()[t * 3 + j];
+                mesh->getVertices()[vIdx].color = blueColor;
             }
         }
 
@@ -176,7 +176,7 @@ void InfectionController::reset()
     if (!mesh)
         return;
 
-    for (auto& v : mesh->vertices)
+    for (auto& v : mesh->getVertices())
         v.color = glm::vec3(1.0f);
 
     mesh->UpdateVertices({});

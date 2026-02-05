@@ -7,8 +7,6 @@
 class EBO
 {
 public:
-	// ID reference of Elements Buffer Object
-	GLuint ID;
 	// Constructor that generates a Elements Buffer Object and links it to indices
 	EBO(std::vector<GLuint>& indices);
 
@@ -18,6 +16,9 @@ public:
 	void Unbind();
 	// Deletes the EBO
 	void Delete();
+private:
+	// ID reference of Elements Buffer Object
+	GLuint ID;
 };
 
 #endif

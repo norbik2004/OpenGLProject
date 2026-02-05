@@ -133,9 +133,9 @@ void Model::Draw(Shader& shader, Camera& camera, const glm::mat4& modelMatrix)
 	for (auto& mesh : meshes)
 	{
 		shader.Activate();
-		glUniformMatrix4fv(glGetUniformLocation(shader.ID, "model"), 1, GL_FALSE, glm::value_ptr(modelMatrix));
-		glUniformMatrix4fv(glGetUniformLocation(shader.ID, "camMatrix"), 1, GL_FALSE, glm::value_ptr(camera.cameraMatrix));
-		glUniform1f(glGetUniformLocation(shader.ID, "uScale"), 8.0f);
+		glUniformMatrix4fv(glGetUniformLocation(shader.getID(), "model"), 1, GL_FALSE, glm::value_ptr(modelMatrix));
+		glUniformMatrix4fv(glGetUniformLocation(shader.getID(), "camMatrix"), 1, GL_FALSE, glm::value_ptr(camera.getCameraMatrix()));
+		glUniform1f(glGetUniformLocation(shader.getID(), "uScale"), 8.0f);
 
 		mesh.Draw(shader, camera);
 	}

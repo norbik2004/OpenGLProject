@@ -8,11 +8,11 @@
 
 class Texture
 {
-public:
+private:
 	GLuint ID;
 	const char* type;
 	GLuint unit;
-
+public:
 	Texture(const char* image, const char* texType, GLuint slot, GLenum format, GLenum pixelType);
 
 	// Assigns a texture unit to a texture
@@ -23,5 +23,6 @@ public:
 	void Unbind();
 	// Deletes a texture
 	void Delete();
+	const char* getType() const { return type; }
 };
 #endif
